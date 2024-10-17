@@ -1,0 +1,19 @@
+{
+  "name": "reprod-zenstack",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "prisma": "^5.21.0",
+    "zenstack": "2.7.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.21.0",
+    "@zenstackhq/runtime": "2.7.0"
+  }
+}
