@@ -10,18 +10,22 @@ generator client {
 }
 
 model User {
-  id       String    @id @default(cuid())
-  email    String    @unique @email @length(6, 32)
-  password String    @password @omit
-  contents Content[]
+  id              String    @id @default(cuid())
+  email           String    @unique @email @length(6, 32)
+  password        String    @password @omit
+  contents        Content[]
+  postsCoauthored PostWithCoauthor[]
 
   @@allow('all', true)
 }
 
-abstract model BaseContent {
+abstract model Owner {
+  owner   User   @relation(fields: [ownerId], references: [id])
+  ownerId String @default(auth().id)
+}
+
+abstract model BaseContent extends Owner {
   published Boolean @default(false)
-  owner     User    @relation(fields: [ownerId], references: [id])
-  ownerId   String  @default(auth().id)
 
   @@index([published])
 }
@@ -37,14 +41,20 @@ model Content extends BaseContent {
   @@delegate(contentType)
 }
 
-model Post extends Content {
-  title String
+
+model PostWithCoauthor extends Content {
+  title      String
+
+  coauthor   User   @relation(fields: [coauthorId], references: [id])
+  coauthorId String
 
   @@allow('all', true)
 }
 
-model Video extends Content {
-  name     String
-  duration Int
+
+
+model Post extends Content {
+  title      String
+
   @@allow('all', true)
 }

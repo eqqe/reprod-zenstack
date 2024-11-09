@@ -7,7 +7,7 @@ async function main() {
 
 	const user = await prisma.user.create({
 		data: {
-			email: "exm@example.com",
+			email: "example@example.com",
 			password: "example",
 		}
 	});
@@ -16,12 +16,35 @@ async function main() {
 		user
 	});
 
-
 	await enhanced.post.create({
 		data: {
 			title: "new post"
 		}
 	})
+
+
+
+
+	/* 
+
+	Error typescript
+
+
+	Property 'owner' is missing in type '{ title: string; coauthor: { connect: { id: string; }; }; }' but required in type 'PostWithCoauthorCreateInput'.ts(2322)
+
+	*/
+
+	await enhanced.postWithCoauthor.create({
+		data: {
+			title: "new post",
+			coauthor: {
+				connect: {
+					id: user.id
+				}
+			},
+		}
+	})
+
 
 
 }
